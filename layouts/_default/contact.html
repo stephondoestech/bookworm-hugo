@@ -1,34 +1,41 @@
 {{ define "main" }}
 
-{{with site.Params.contact_form_action}}
-<section class="section-sm">
+<div class="intro intro-small">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-8">
-        <form method="POST" action="{{ site.Params.contact_form_action | safeURL}}">
-          <div class="mb-4">
-            <label for="name" class="form-label">{{ i18n "name" }}</label>
-            <input type="text" class="form-control rounded" id="name" placeholder="Stephon Parker" required>
-          </div>
-          <div class="mb-4">
-            <label for="email" class="form-label">{{ i18n "email" }}</label>
-            <input type="email" class="form-control rounded" id="email" placeholder="hello@stephondoestech.com" required>
-          </div>
-          <div class="mb-4">
-            <label for="subject" class="form-label">{{ i18n "subject" }}</label>
-            <input type="text" class="form-control rounded" id="subject" placeholder="Reason(s) for Contact" required>
-          </div>
-          <div class="mb-4">
-            <label for="message" class="form-label">{{ i18n "message"}}</label>
-            <textarea class="form-control rounded" id="message" rows="4" placeholder="Your Message" required></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary rounded" aria-label="Send Message">{{ i18n "send_message"}}</button>
-        </form>
-      </div>
+    <div class="row">
     </div>
   </div>
-</section>
-{{end}}
-
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-8">
+      {{ .Content }}
+      <ul>
+        {{ if .Site.Data.contact.phone }}
+        <li><strong>Phone: </strong>{{ .Site.Data.contact.phone }}</li>
+        {{ end }}
+        {{ if .Site.Data.contact.email }}
+        <li><strong>Email: </strong><a href="mailto:{{ .Site.Data.contact.email }}">
+            {{ .Site.Data.contact.email }}</a></li>
+        {{ end }}
+        {{ if .Site.Data.contact.address }}
+        <li style="white-space: pre-wrap;"><strong>Address: </strong><br>{{ .Site.Data.contact.address }}</li>
+        {{ end }}
+      </ul>
+      {{ if .Site.Data.contact.hours }}
+      <h4 class="mt-4">Business Hours</h4>
+      <table class="table table-sm opening-hours-table">
+        {{ range .Site.Data.contact.hours }}
+        <tr>
+          <td class="day font-weight-bold">{{ .day }}</td>
+          <td class="opens">{{ .open }}</td>
+          <td>-</td>
+          <td class="closes">{{ .close }}</td>
+        </tr>
+        {{ end }}
+      </table>
+      {{ end }}
+    </div>
+  </div>
+</div>
 {{ end }}
